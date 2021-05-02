@@ -1,0 +1,3 @@
+C:/Users/polat/CLionProjects/algoritmaAnaliziProje/cmake-build-debug/CMakeFiles/algoritmaAnaliziProje.dir
+C:/Users/polat/CLionProjects/algoritmaAnaliziProje/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/polat/CLionProjects/algoritmaAnaliziProje/cmake-build-debug/CMakeFiles/rebuild_cache.dir
