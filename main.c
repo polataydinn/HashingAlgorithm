@@ -1,48 +1,72 @@
 #include <stdio.h>
 
 int *hashEncrypt(int *i);
-void fileReadAndConvertHash(char filePath[], FILE *fp);
+
+void fileReadAndConvertHash(char filePath[], FILE *fp, FILE *fw);
+
+void writeHashesToTextFile(FILE *fw, char *pInt);
 
 int a = 0;
 int hashVeri[100];
 int hash2[100];
 int *hashed;
+int sayac = 0;
 
 int main() {
-    int veri[100] = {'a', 'y', 'd', 'i', 'n'};
-
+    char veri[100] = {'a', 'y', 'd', 'i', 'n'};
     char filePath[500] = "C:\\Users\\polat\\CLionProjects\\algoritmaAnaliziProje\\kelimeler.txt";
     FILE *fp;
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
-    fileReadAndConvertHash(filePath, fp);
+    FILE *fw;
+    fileReadAndConvertHash(filePath, fp,fw);
 }
 
-void fileReadAndConvertHash(char filePath[], FILE *fp) {
+void fileReadAndConvertHash(char filePath[], FILE *fp, FILE *fw) {
     fp = fopen(filePath, "r");
+    int gecici;
     if (fp == NULL) {
         printf("Dosya boş yada hatalı");
+    } else {
+        int b = 0;
+        while (hash2[b] != -1) {
+            do {
+                gecici = (int) fgetc(fp);
+                if (gecici!= 10) {
+                    hash2[b] = gecici;
+                }
+                b++;
+            } while (gecici != 10 && gecici !=-1);
+            hashed = hashEncrypt(hash2);
+            writeHashesToTextFile(fw, (char *) hashed);
+            int k = 0;
+            sayac = sayac + 1;
+            printf("%d -)",sayac);
+            while (hashed[k] != 0) {
+                printf(" %c", hashed[k]);
+                k++;
+            }
+            b = 0;
+        }
+
+
+        fclose(fp);
     }
-    int b = 0;
-    do {
-        hash2[b] = (int) fgetc(fp);
-        b++;
-    } while (hash2[b - 1] != -1);
+}
 
-    hashed = hashEncrypt(hash2);
-    for (int i = 0; i < 5; ++i) {
-        printf("%c", hashed[i]);
+void writeHashesToTextFile(FILE *fw, char *pInt) {
+    fw = fopen("..\\hashedWords.txt", "w");
+    if (fw == NULL) {
+        printf("Dosya olusturma basarisiz..");
+    } else {
+        fputs(pInt,fw);
+        fprintf(fw,"\n");
+        fclose(fw);
     }
-
-
-    fclose(fp);
 }
 
 int *hashEncrypt(int *i) {
-    if (i[a] != 10) {
+    if (i[a] != -1 && i[a] != 0) {
         int deger = i[a];
-        if (deger >= 33 && deger < 80) {
+        if (deger >= 41 && deger < 80) {
             deger = deger + 46;
             char charDonustur = (char) deger;
             hashVeri[a] = charDonustur;
@@ -57,7 +81,7 @@ int *hashEncrypt(int *i) {
         hashEncrypt(i);
     } else {
         a = 0;
-        printf("İşlem Başarılı\n\nhashed veri = ");
+        printf("Islem Basarili\n\nhashed veri = ");
         return hashVeri;
     }
 }
