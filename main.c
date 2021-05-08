@@ -4,13 +4,12 @@ int *hashEncrypt(int *i);
 
 void fileReadAndConvertHash(char filePath[], FILE *fp, FILE *fw);
 
-void writeHashesToTextFile(FILE *fw, char *pInt);
+void writeHashesToTextFile(FILE *fw, int *pInt);
 
 int a = 0;
 int hashVeri[100];
 int hash2[100];
 int *hashed;
-int sayac = 0;
 
 int main() {
     char veri[100] = {'a', 'y', 'd', 'i', 'n'};
@@ -22,6 +21,7 @@ int main() {
 
 void fileReadAndConvertHash(char filePath[], FILE *fp, FILE *fw) {
     fp = fopen(filePath, "r");
+    fw = fopen("..\\hashedWords.txt", "w");
     int gecici;
     if (fp == NULL) {
         printf("Dosya boş yada hatalı");
@@ -36,30 +36,24 @@ void fileReadAndConvertHash(char filePath[], FILE *fp, FILE *fw) {
                 b++;
             } while (gecici != 10 && gecici !=-1);
             hashed = hashEncrypt(hash2);
-            writeHashesToTextFile(fw, (char *) hashed);
-            int k = 0;
-            sayac = sayac + 1;
-            printf("%d -)",sayac);
-            while (hashed[k] != 0) {
-                printf(" %c", hashed[k]);
-                k++;
-            }
+            writeHashesToTextFile(fw, hashed);
             b = 0;
         }
-
-
+        fclose(fw);
         fclose(fp);
     }
 }
 
-void writeHashesToTextFile(FILE *fw, char *pInt) {
-    fw = fopen("..\\hashedWords.txt", "w");
+void writeHashesToTextFile(FILE *fw, int *pInt) {
     if (fw == NULL) {
         printf("Dosya olusturma basarisiz..");
     } else {
-        fputs(pInt,fw);
+        int k= 0;
+        while (pInt[k] != 0) {
+            fprintf(fw,"%c",pInt[k]);
+            k++;
+        }
         fprintf(fw,"\n");
-        fclose(fw);
     }
 }
 
